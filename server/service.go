@@ -16,7 +16,7 @@ import (
 	"time"
 
 	"github.com/attestantio/go-builder-client/api"
-	apiv1 "github.com/attestantio/go-builder-client/api/v1"
+	apiv2 "github.com/attestantio/go-builder-client/api/v2"
 	"github.com/attestantio/go-builder-client/spec"
 	apiv1bellatrix "github.com/attestantio/go-eth2-client/api/v1/bellatrix"
 	"github.com/attestantio/go-eth2-client/api/v1/capella"
@@ -213,7 +213,7 @@ func (m *BoostService) startBidCacheCleanupTask() {
 	}
 }
 
-func (m *BoostService) sendValidatorRegistrationsToRelayMonitors(payload []apiv1.SignedValidatorRegistration) {
+func (m *BoostService) sendValidatorRegistrationsToRelayMonitors(payload []apiv2.SignedValidatorRegistration) {
 	log := m.log.WithField("method", "sendValidatorRegistrationsToRelayMonitors").WithField("numRegistrations", len(payload))
 	for _, relayMonitor := range m.relayMonitors {
 		go func(relayMonitor *url.URL) {
@@ -265,7 +265,7 @@ func (m *BoostService) handleRegisterValidator(w http.ResponseWriter, req *http.
 	log := m.log.WithField("method", "registerValidator")
 	log.Debug("registerValidator")
 
-	payload := []apiv1.SignedValidatorRegistration{}
+	payload := []apiv2.SignedValidatorRegistration{}
 	if err := DecodeJSON(req.Body, &payload); err != nil {
 		m.respondError(w, http.StatusBadRequest, err.Error())
 		return

@@ -15,7 +15,7 @@ import (
 	"time"
 
 	"github.com/attestantio/go-builder-client/api"
-	apiv1 "github.com/attestantio/go-builder-client/api/v1"
+	apiv2 "github.com/attestantio/go-builder-client/api/v2"
 	"github.com/attestantio/go-builder-client/spec"
 	apiv1capella "github.com/attestantio/go-eth2-client/api/v1/capella"
 	consensusspec "github.com/attestantio/go-eth2-client/spec"
@@ -208,17 +208,18 @@ func TestStatus(t *testing.T) {
 
 func TestRegisterValidator(t *testing.T) {
 	path := "/eth/v1/builder/validators"
-	reg := apiv1.SignedValidatorRegistration{
-		Message: &apiv1.ValidatorRegistration{
+	reg := apiv2.SignedValidatorRegistration{
+		Message: &apiv2.ValidatorRegistration{
 			FeeRecipient: _HexToAddress("0xdb65fEd33dc262Fe09D9a2Ba8F80b329BA25f941"),
 			Timestamp:    time.Unix(1234356, 0),
 			Pubkey: _HexToPubkey(
 				"0x8a1d7b8dd64e0aafe7ea7b6c95065c9364cf99d38470c12ee807d55f7de1529ad29ce2c422e0b65e3d5a05c02caca249"),
+			ProposerCommitment: 1,
 		},
 		Signature: _HexToSignature(
 			"0x81510b571e22f89d1697545aac01c9ad0c1e7a3e778b3078bef524efae14990e58a6e960a152abd49de2e18d7fd3081c15d5c25867ccfad3d47beef6b39ac24b6b9fbf2cfa91c88f67aff750438a6841ec9e4a06a94ae41410c4f97b75ab284c"),
 	}
-	payload := []apiv1.SignedValidatorRegistration{reg}
+	payload := []apiv2.SignedValidatorRegistration{reg}
 
 	t.Run("Normal function", func(t *testing.T) {
 		backend := newTestBackend(t, 1, time.Second)
