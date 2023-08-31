@@ -2,6 +2,8 @@ module github.com/flashbots/mev-boost
 
 go 1.20
 
+replace github.com/attestantio/go-builder-client => github.com/bharath-123/go-builder-client v0.0.0-20230825164349-8d72870ed37c
+
 require (
 	github.com/ethereum/go-ethereum v1.12.0
 	github.com/flashbots/go-boost-utils v1.7.1-0.20230625230411-8c44018f4777
