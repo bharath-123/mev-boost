@@ -240,7 +240,7 @@ func (m *BoostService) innerGetPayload(log *logrus.Entry, signedBlindedBeaconBlo
 				// we can fallback to V1 API if the status code returned >= 404. There is no harm
 				// falling back to the V1 API, falling back to the V1 API in the case of any error
 				// can be beneficial to the proposer to avoid a missed slot.
-				if resp.StatusCode >= http.StatusNotFound && url == relay.GetURI(params.PathGetPayloadV2) {
+				if resp.StatusCode >= http.StatusBadRequest && url == relay.GetURI(params.PathGetPayloadV2) {
 					log.Warnf("unexpected status code %d", resp.StatusCode)
 					log.Warn("relay may not support V2 API, Retrying with V1 API")
 					// retry with v1 api
@@ -304,7 +304,7 @@ func (m *BoostService) innerGetPayload(log *logrus.Entry, signedBlindedBeaconBlo
 			}
 
 			// The payload is valid, cancel the request for others
-			requestCtxCancel()
+			// requestCtxCancel()
 
 			// We have received a valid response, cancel other requests
 			if received.CompareAndSwap(false, true) {
