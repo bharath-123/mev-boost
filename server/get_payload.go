@@ -304,7 +304,7 @@ func (m *BoostService) innerGetPayload(log *logrus.Entry, signedBlindedBeaconBlo
 			}
 
 			// The payload is valid, cancel the request for others
-			// requestCtxCancel()
+			requestCtxCancel()
 
 			// We have received a valid response, cancel other requests
 			if received.CompareAndSwap(false, true) {
